@@ -7,15 +7,14 @@ class AppConstants {
   static const String appDescription = 'Smart parking solution for modern cities';
   
   // API Configuration
-  static const String apiBaseUrl = 'http://localhost:3000/api';
-  static const String apiVersion = 'v1';
+  static const String apiBaseUrl = 'http://10.0.2.2:3000/api';
   static const int apiTimeout = 30; // seconds
   
   // Database Configuration
   static const String databaseName = 'khaled_db';
   
   // Payment Configuration
-  static const String stripePublishableKey = 'pk_test_your_stripe_key_here';
+  static const String stripePublishableKey = 'pk_test_51RoOIOC7MZ8oNmmfbAFGwLsdZ9cz1soMx960VVP7tubx4trX75E6eSRUmjbQeShIfcFzif0Q6jeyYeUZtu1wm47g00PptZ0Tza';
   static const String currency = 'EUR';
   static const String currencySymbol = '€';
   

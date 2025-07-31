@@ -26,7 +26,7 @@ app.use(compression());
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
+  origin: process.env.CORS_ORIGIN?.split(',') || ['http://10.0.2.2:3000/api'],
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -91,10 +91,9 @@ async function startServer() {
     console.log('✅ Database connected successfully');
     
     // Start server
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📱 API available at http://localhost:${PORT}/api`);
-      console.log(`🏥 Health check at http://localhost:${PORT}/health`);
+      // ...
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);

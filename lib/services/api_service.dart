@@ -5,15 +5,15 @@ import '../models/parking.dart';
 import '../models/reservation.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:3000/api'; // Change to your API URL
-  static const String apiVersion = 'v1';
+  static const String baseUrl = 'http://10.0.2.2:3000/api'; // Change to your API URL
+  // Remove apiVersion and do not append /v1 to baseUrl
   
   late Dio _dio;
   String? _authToken;
 
   ApiService() {
     _dio = Dio(BaseOptions(
-      baseUrl: '$baseUrl/$apiVersion',
+      baseUrl: baseUrl, // No /v1
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers: {
@@ -94,8 +94,8 @@ class ApiService {
       final response = await _dio.post('/auth/register', data: {
         'email': email,
         'password': password,
-        'first_name': firstName,
-        'last_name': lastName,
+        'firstName': firstName, // <-- CamelCase
+        'lastName': lastName,   // <-- CamelCase
         'phone': phone,
       });
       

@@ -42,13 +42,13 @@ router.get('/nearby', [
       FROM parkings p
       LEFT JOIN users u ON p.owner_id = u.id
       WHERE p.is_active = true
-      HAVING (
-        6371 * acos(
-          cos(radians($1)) * cos(radians(p.latitude)) * 
-          cos(radians(p.longitude) - radians($2)) + 
-          sin(radians($1)) * sin(radians(p.latitude))
-        )
-      ) <= $3
+        AND (
+          6371 * acos(
+            cos(radians($1)) * cos(radians(p.latitude)) * 
+            cos(radians(p.longitude) - radians($2)) + 
+            sin(radians($1)) * sin(radians(p.latitude))
+          )
+        ) <= $3
       ORDER BY distance
       LIMIT $4
     `, [latitude, longitude, radius, limit]);
