@@ -141,18 +141,24 @@ class ApiService {
   // User Methods
   Future<User> getCurrentUser() async {
     try {
+      print('API GetCurrentUser: Making request to /users/me');
       final response = await _dio.get('/users/me');
-      return User.fromJson(response.data['user']);
+      print('API GetCurrentUser Response: ${response.data}');
+      return User.fromJson(response.data['data']['user']);
     } catch (e) {
+      print('API GetCurrentUser Error: $e');
       rethrow;
     }
   }
 
   Future<User> updateUser(Map<String, dynamic> userData) async {
     try {
+      print('API UpdateUser: Making request to /users/me');
       final response = await _dio.put('/users/me', data: userData);
-      return User.fromJson(response.data['user']);
+      print('API UpdateUser Response: ${response.data}');
+      return User.fromJson(response.data['data']['user']);
     } catch (e) {
+      print('API UpdateUser Error: $e');
       rethrow;
     }
   }

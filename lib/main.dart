@@ -15,6 +15,10 @@ import 'views/screens/auth/login_screen.dart';
 import 'views/screens/auth/register_screen.dart';
 import 'views/screens/auth/forgot_password_screen.dart';
 import 'views/screens/main/home_screen.dart';
+import 'views/screens/main/map_screen.dart';
+import 'views/screens/main/reservations_screen.dart';
+import 'views/screens/main/search_screen.dart';
+import 'views/screens/main/placeholder_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,6 +101,22 @@ class ParkingApp extends StatelessWidget {
           AppRoutes.register: (context) => const RegisterScreen(),
           AppRoutes.forgotPassword: (context) => const ForgotPasswordScreen(),
           AppRoutes.home: (context) => const HomeScreen(),
+          AppRoutes.map: (context) => const MapScreen(),
+          AppRoutes.reservations: (context) => const ReservationsScreen(),
+          AppRoutes.search: (context) => const SearchScreen(),
+          // Placeholder routes for features coming soon
+          AppRoutes.payments: (context) => const PlaceholderScreen(
+            title: 'Payments',
+            message: 'Payment management is coming soon!',
+          ),
+          AppRoutes.support: (context) => const PlaceholderScreen(
+            title: 'Support',
+            message: 'Customer support is coming soon!',
+          ),
+          AppRoutes.parkings: (context) => const PlaceholderScreen(
+            title: 'All Parkings',
+            message: 'Browse all parking spots coming soon!',
+          ),
         },
       ),
     );
