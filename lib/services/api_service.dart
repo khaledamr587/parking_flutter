@@ -43,10 +43,12 @@ class ApiService {
     _authToken = prefs.getString('auth_token');
   }
 
-  Future<void> _saveAuthToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('auth_token', token);
-    _authToken = token;
+  Future<void> _saveAuthToken(String? token) async {
+    if (token != null) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('auth_token', token);
+      _authToken = token;
+    }
   }
 
   void _handleError(DioException error) {
@@ -74,11 +76,15 @@ class ApiService {
         'password': password,
       });
       
-      final token = response.data['token'];
+      print('API Login Response: ${response.data}');
+      print('Token from response: ${response.data['data']?['token']}');
+      
+      final token = response.data['data']?['token'];
       await _saveAuthToken(token);
       
       return response.data;
     } catch (e) {
+      print('API Login Error: $e');
       rethrow;
     }
   }
@@ -91,19 +97,31 @@ class ApiService {
     String? phone,
   }) async {
     try {
-      final response = await _dio.post('/auth/register', data: {
+      final requestData = <String, dynamic>{
         'email': email,
         'password': password,
-        'firstName': firstName, // <-- CamelCase
-        'lastName': lastName,   // <-- CamelCase
-        'phone': phone,
-      });
+        'firstName': firstName, // <-- camelCase for backend
+        'lastName': lastName,   // <-- camelCase for backend
+      };
       
-      final token = response.data['token'];
+      // Only add phone if it's not null and not empty
+      if (phone != null && phone.isNotEmpty) {
+        requestData['phone'] = phone;
+      }
+      
+      print('API Register Request Data: $requestData');
+      
+      final response = await _dio.post('/auth/register', data: requestData);
+      
+      print('API Register Response: ${response.data}');
+      print('Token from response: ${response.data['data']?['token']}');
+      
+      final token = response.data['data']?['token'];
       await _saveAuthToken(token);
       
       return response.data;
     } catch (e) {
+      print('API Register Error: $e');
       rethrow;
     }
   }

@@ -26,7 +26,7 @@ app.use(compression());
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN?.split(',') || ['http://10.0.2.2:3000/api'],
+  origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
 };

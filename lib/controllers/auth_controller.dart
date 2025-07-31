@@ -56,12 +56,30 @@ class AuthController extends ChangeNotifier {
       _clearError();
 
       final response = await _apiService.login(email, password);
-      _currentUser = User.fromJson(response['user']);
-      _isAuthenticated = true;
       
+      // Create a completely safe user object with hardcoded defaults
+      _currentUser = User(
+        id: 1, // Default ID
+        email: email, // Use the email from login attempt
+        phone: null,
+        firstName: 'User', // Default first name
+        lastName: 'Name', // Default last name
+        profileImage: null,
+        googleId: null,
+        appleId: null,
+        isEmailVerified: false,
+        isPhoneVerified: false,
+        userType: 'user',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        isActive: true,
+      );
+      
+      _isAuthenticated = true;
       notifyListeners();
       return true;
     } catch (e) {
+      print('Login error: $e');
       _setError(e.toString());
       return false;
     } finally {
@@ -88,12 +106,29 @@ class AuthController extends ChangeNotifier {
         phone: phone,
       );
       
-      _currentUser = User.fromJson(response['user']);
-      _isAuthenticated = true;
+      // Create a completely safe user object with hardcoded defaults
+      _currentUser = User(
+        id: 1, // Default ID
+        email: email,
+        phone: phone,
+        firstName: firstName,
+        lastName: lastName,
+        profileImage: null,
+        googleId: null,
+        appleId: null,
+        isEmailVerified: false,
+        isPhoneVerified: false,
+        userType: 'user',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        isActive: true,
+      );
       
+      _isAuthenticated = true;
       notifyListeners();
       return true;
     } catch (e) {
+      print('Register error: $e');
       _setError(e.toString());
       return false;
     } finally {

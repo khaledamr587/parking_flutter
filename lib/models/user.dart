@@ -33,22 +33,68 @@ class User {
         updatedAt = updatedAt ?? DateTime.now();
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      email: json['email'],
-      phone: json['phone'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      profileImage: json['profile_image'],
-      googleId: json['google_id'],
-      appleId: json['apple_id'],
-      isEmailVerified: json['is_email_verified'] ?? false,
-      isPhoneVerified: json['is_phone_verified'] ?? false,
-      userType: json['user_type'] ?? 'user',
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-      isActive: json['is_active'] ?? true,
-    );
+    print('User.fromJson called with: $json');
+    
+    try {
+      // Ensure all required fields are present and have proper types
+      final safeJson = Map<String, dynamic>.from(json);
+      
+      // Handle required string fields
+      safeJson['email'] = safeJson['email']?.toString() ?? '';
+      safeJson['first_name'] = safeJson['first_name']?.toString() ?? '';
+      safeJson['last_name'] = safeJson['last_name']?.toString() ?? '';
+      safeJson['user_type'] = safeJson['user_type']?.toString() ?? 'user';
+      
+      // Handle optional string fields
+      safeJson['phone'] = safeJson['phone']?.toString();
+      safeJson['profile_image'] = safeJson['profile_image']?.toString();
+      safeJson['google_id'] = safeJson['google_id']?.toString();
+      safeJson['apple_id'] = safeJson['apple_id']?.toString();
+      
+      // Handle boolean fields
+      safeJson['is_email_verified'] = safeJson['is_email_verified'] == true;
+      safeJson['is_phone_verified'] = safeJson['is_phone_verified'] == true;
+      safeJson['is_active'] = safeJson['is_active'] != false;
+      
+      // Handle date fields
+      DateTime now = DateTime.now();
+      try {
+        safeJson['created_at'] = safeJson['created_at'] != null 
+            ? DateTime.parse(safeJson['created_at'].toString()) 
+            : now;
+      } catch (e) {
+        safeJson['created_at'] = now;
+      }
+      
+      try {
+        safeJson['updated_at'] = safeJson['updated_at'] != null 
+            ? DateTime.parse(safeJson['updated_at'].toString()) 
+            : now;
+      } catch (e) {
+        safeJson['updated_at'] = now;
+      }
+      
+      return User(
+        id: safeJson['id'],
+        email: safeJson['email'],
+        phone: safeJson['phone'],
+        firstName: safeJson['first_name'],
+        lastName: safeJson['last_name'],
+        profileImage: safeJson['profile_image'],
+        googleId: safeJson['google_id'],
+        appleId: safeJson['apple_id'],
+        isEmailVerified: safeJson['is_email_verified'],
+        isPhoneVerified: safeJson['is_phone_verified'],
+        userType: safeJson['user_type'],
+        createdAt: safeJson['created_at'],
+        updatedAt: safeJson['updated_at'],
+        isActive: safeJson['is_active'],
+      );
+    } catch (e) {
+      print('Error in User.fromJson: $e');
+      print('JSON data: $json');
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toJson() {
